@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          registry-url: 'https://registry.npmjs.org/'
+          scope: '@mdrv'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          registry-url: 'https://registry.npmjs.org/'
+          scope: '@mdrv'
+      - run: bun i # install
+      - run: bun b # build
+      - run: npm publish --provenance --access public
+        env:
+          NPM_CONFIG_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -1,0 +1,44 @@
+{
+	"name": "@mdrv/m",
+	"version": "257.0.0",
+	"description": "Take your existing code to the maximum minimalist approach!",
+	"keywords": ["helpers", "generics", "stdlib", "types", "toolkit", "utilities"],
+	"homepage": "https://github.com/mdrv/m",
+	"bugs": {
+		"url": "https://github.com/mdrv/m/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mdrv/m.git"
+	},
+	"license": "GPL-3.0",
+	"author": "Umar Alfarouk <medrivia@gmail.com> (https://alfarouk.id)",
+	"type": "module",
+	"exports": {
+		".": {
+			"development": "./src/v257/index.ts",
+			"default": "./dist/v257/index.js"
+		},
+		"./dom": {
+			"development": "./src/v257/dom.ts",
+			"default": "./dist/v257/dom.js"
+		},
+		"./node": {
+			"development": "./src/v257/node.ts",
+			"default": "./dist/v257/node.js"
+		}
+	},
+	"main": "dist/v257/index.js",
+	"files": ["dist"],
+	"scripts": {
+		"b": "tsc --build && swc --strip-leading-paths ./src/v*/ -d ./dist/"
+	},
+	"devDependencies": {
+		"@swc/cli": "^0.7.7",
+		"@swc/plugin-transform-imports": "^8.0.3",
+		"swc": "^1.0.11"
+	},
+	"dependencies": {
+		"loglevel": "^1.9.2"
+	}
+}
