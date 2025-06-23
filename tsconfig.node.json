@@ -28,6 +28,7 @@
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false,
+        "types": ["bun"]
 	},
 	"include": ["src/v*/**/*.ts"],
 	"exclude": ["src/v*/**/dom.ts"]
