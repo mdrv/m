@@ -1,8 +1,8 @@
 {
 	"name": "@mdrv/m",
-	"version": "257.0.0",
-	"description": "Take your existing code to the maximum minimalist approach!",
-	"keywords": ["helpers", "generics", "stdlib", "types", "toolkit", "utilities"],
+	"version": "257.1.0",
+	"description": "🪴 Take your JS/TS existing code to the minimalist approach.",
+	"keywords": ["helpers", "generics", "stdlib", "toolkit", "types", "utilities"],
 	"homepage": "https://github.com/mdrv/m",
 	"bugs": {
 		"url": "https://github.com/mdrv/m/issues"
@@ -15,27 +15,51 @@
 	"author": "Umar Alfarouk <medrivia@gmail.com> (https://alfarouk.id)",
 	"type": "module",
 	"exports": {
-		".": {
-			"development": "./src/v257/index.ts",
-			"default": "./dist/v257/index.js"
-		},
-		"./dom": {
-			"development": "./src/v257/dom.ts",
-			"default": "./dist/v257/dom.js"
-		},
-		"./node": {
-			"development": "./src/v257/node.ts",
-			"default": "./dist/v257/node.js"
-		}
+		".": "./src/v257/index.ts",
+		"./dom": "./src/v257/dom.ts",
+		"./node": "./src/v257/node.ts",
+		"./*/dom": "./src/*/dom.ts",
+		"./*/node": "./src/*/node.ts",
+		"./*": "./src/*/index.ts"
 	},
-	"main": "dist/v257/index.js",
 	"files": ["dist"],
 	"scripts": {
 		"b": "tsc --build && swc --strip-leading-paths ./src/v*/ -d ./dist/"
 	},
+	"publishConfig": {
+		"main": "./dist/v257/index.js",
+		"types": "./dist/v257/index.d.ts",
+		"exports": {
+			".": {
+				"default": "./dist/v257/index.js",
+				"types": "./dist/v257/index.d.ts"
+			},
+			"./dom": {
+				"default": "./dist/v257/dom.js",
+				"types": "./dist/v257/dom.d.ts"
+			},
+			"./node": {
+				"default": "./dist/v257/node.js",
+				"types": "./dist/v257/node.d.ts"
+			},
+			"./*/dom": {
+				"default": "./dist/*/dom.js",
+				"types": "./dist/*/dom.d.ts"
+			},
+			"./*/node": {
+				"default": "./dist/*/node.js",
+				"types": "./dist/*/node.d.ts"
+			},
+			"./*": {
+				"default": "./dist/*/index.js",
+				"types": "./dist/*/index.d.ts"
+			}
+		}
+	},
 	"devDependencies": {
 		"@swc/cli": "^0.7.7",
 		"@swc/plugin-transform-imports": "^8.0.3",
+		"@types/bun": "^1.2.17",
 		"@types/node": "^24.0.3",
 		"swc": "^1.0.11"
 	},
