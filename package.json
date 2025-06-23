@@ -24,7 +24,7 @@
 	},
 	"files": ["dist"],
 	"scripts": {
-		"b": "tsc --build && swc --strip-leading-paths ./src/v*/ -d ./dist/"
+		"b": "tsc --build tsconfig.build.json && swc --strip-leading-paths ./src/v*/ -d ./dist/"
 	},
 	"publishConfig": {
 		"main": "./dist/v257/index.js",
