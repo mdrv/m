@@ -40,3 +40,13 @@ export const readFile = async (path: string): Promise<string> => {
     return (await import('node:fs')).readFileSync(path, { encoding: 'utf-8' })
 }
 
+export const readFirstLine = async (path: string): Promise<string> => {
+    const inputStream = (await import('node:fs')).createReadStream(path);
+    try {
+        for await (const line of (await import('node:readline')).createInterface(inputStream)) return line;
+        return ''; // If the file is empty.
+    }
+    finally {
+        inputStream.destroy(); // Destroy file stream.
+    }
+}
