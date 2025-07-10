@@ -14,13 +14,16 @@ export * from './node.ts'
  * const pyCode = python`print('This is a python code')`
  * ```
  */
-export const literal = (strings: TemplateStringsArray, ...expr: any[]): string => {
-    let result = strings[0]!
-    for (let i = 0; i < expr.length; i++) {
-        result += expr[i]
-        result += strings[i + 1]!
-    }
-    return result
+export const literal = (
+	strings: TemplateStringsArray,
+	...expr: any[]
+): string => {
+	let result = strings[0]!
+	for (let i = 0; i < expr.length; i++) {
+		result += expr[i]
+		result += strings[i + 1]!
+	}
+	return result
 }
 
 /**
@@ -33,7 +36,7 @@ export const literal = (strings: TemplateStringsArray, ...expr: any[]): string =
  * console.log(x()) // returns milliseconds of execution
  * ```
  */
-export const fromNow = (): () => number => {
-    const start = performance.now()
-    return () => performance.now() - start
+export const fromNow = (): (() => number) => {
+	const start = performance.now()
+	return () => performance.now() - start
 }

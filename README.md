@@ -20,17 +20,17 @@
     <b><i>Take your JS/TS existing code to the minimalist approach.</i></b>
 </p>
 
->   [!CAUTION]
->   This package is created mainly for the author’s internal projects and published for documentation purposes. If you do have any suggestion, kindly share your thoughts on [Discussion](https://github.com/mdrv/m/discussions) tab.
+> [!CAUTION]
+> This package is created mainly for the author’s internal projects and published for documentation purposes. If you do have any suggestion, kindly share your thoughts on [Discussion](https://github.com/mdrv/m/discussions) tab.
 
 ## 🔔 Release Info
 
 This package implements **Gregorian YYM-based** semver notation.
 
--   📅 `v257.x.x`: Released around/on July 2025. **(current)**
--   🚀 `v260.x.x`: Released from October to December 2025.
+- 📅 `v257.x.x`: Released around/on July 2025. **(current)**
+- 🚀 `v260.x.x`: Released from October to December 2025.
 
-For every major release, the preceding version will need to be imported with subpath: 
+For every major release, the preceding version will need to be imported with subpath:
 
 ```ts
 /* Example: v260.x.x */
@@ -42,8 +42,8 @@ See [CHANGELOG](https://github.com/mdrv/m/wiki/changelog) for breaking changes, 
 
 ## 💖 Inspirations
 
--   🧩 [`es-toolkit`](https://github.com/toss/es-toolkit)
--   🎊 [`type-fest`](https://github.com/sindresorhus/type-fest)
--   🧰 [`ts-essentials`](https://github.com/ts-essentials/ts-essentials)
+- 🧩 [`es-toolkit`](https://github.com/toss/es-toolkit)
+- 🎊 [`type-fest`](https://github.com/sindresorhus/type-fest)
+- 🧰 [`ts-essentials`](https://github.com/ts-essentials/ts-essentials)
 
 <p align="center"><sub><strong>© 2025 MEDRIVIA ／ Umar Alfarouk</strong></sub></p>

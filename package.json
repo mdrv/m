@@ -1,8 +1,15 @@
 {
 	"name": "@mdrv/m",
-	"version": "257.3.0",
+	"version": "257.3.1",
 	"description": "🪴 Take your JS/TS existing code to the minimalist approach.",
-	"keywords": ["helpers", "generics", "stdlib", "toolkit", "types", "utilities"],
+	"keywords": [
+		"helpers",
+		"generics",
+		"stdlib",
+		"toolkit",
+		"types",
+		"utilities"
+	],
 	"homepage": "https://github.com/mdrv/m",
 	"bugs": {
 		"url": "https://github.com/mdrv/m/issues"
@@ -24,7 +31,9 @@
 	},
 	"files": ["dist"],
 	"scripts": {
-		"b": "tsc --build tsconfig.build.json && swc --strip-leading-paths ./src/v*/ -d ./dist/"
+		"b": "tsdown",
+		"f": "dprint fmt",
+		"fc": "dprint check"
 	},
 	"publishConfig": {
 		"main": "./dist/v257/index.js",
@@ -57,11 +66,9 @@
 		}
 	},
 	"devDependencies": {
-		"@swc/cli": "^0.7.8",
-		"@swc/plugin-transform-imports": "^8.0.4",
 		"@types/bun": "^1.2.18",
 		"@types/node": "^24.0.12",
-		"swc": "^1.0.11"
+		"tsdown": "^0.12.9"
 	},
 	"dependencies": {
 		"loglevel": "^1.9.2"
