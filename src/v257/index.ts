@@ -22,3 +22,18 @@ export const literal = (strings: TemplateStringsArray, ...expr: any[]): string =
     }
     return result
 }
+
+/**
+ * @summary performance.now wrapper; for benchmarking
+ *
+ * @example
+ * ```ts
+ * const x = fromNow()
+ * anyFunction()
+ * console.log(x()) // returns milliseconds of execution
+ * ```
+ */
+export const fromNow = (): () => number => {
+    const start = performance.now()
+    return () => performance.now() - start
+}

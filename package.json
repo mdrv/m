@@ -1,6 +1,6 @@
 {
 	"name": "@mdrv/m",
-	"version": "257.2.0",
+	"version": "257.3.0",
 	"description": "🪴 Take your JS/TS existing code to the minimalist approach.",
 	"keywords": ["helpers", "generics", "stdlib", "toolkit", "types", "utilities"],
 	"homepage": "https://github.com/mdrv/m",
