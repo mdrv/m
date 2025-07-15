@@ -35,7 +35,7 @@ export const withInnerHtml = <T extends Element>(
 export const digestMessage = async (
     message: string,
     algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-256'
-) => {
+): Promise<string> => {
     const msgUint8 = new TextEncoder().encode(message)
     const hashBuffer = await window.crypto.subtle.digest(algorithm, msgUint8)
     const hashArray = Array.from(new Uint8Array(hashBuffer))
@@ -167,8 +167,7 @@ export class AudioFingerprint {
  * @see {@link https://abhisaha.com/blog/no-authentication-like-button/ | No Authentication Like Button | Little Things}
  * @see {@link https://www.reddit.com/r/webdev/comments/1fmpa33/how_i_implemented_a_like_button_without/ | How I implemented a like button without Authentication : r/webdev}
  */
-export const getAudioFp = async (algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-256') => {
-
+export const getAudioFp = async (algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-256'): Promise<string> => {
     return new Promise((resolve: (fingerprint: string) => void) => {
         const audioFingerprint = new AudioFingerprint()
         audioFingerprint.createFingerPrint(async (fingerprint: string) => {
