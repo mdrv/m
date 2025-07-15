@@ -1,6 +1,6 @@
 {
 	"name": "@mdrv/m",
-	"version": "257.3.1",
+	"version": "257.4.0",
 	"description": "🪴 Take your JS/TS existing code to the minimalist approach.",
 	"keywords": [
 		"helpers",
