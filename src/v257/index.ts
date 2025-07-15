@@ -1,5 +1,6 @@
 export * from './log.ts'
 export * from './node.ts'
+export * from './types.d.ts'
 
 // smaller and universal stuff
 
