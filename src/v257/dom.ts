@@ -33,13 +33,13 @@ export const withInnerHtml = <T extends Element>(
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#converting_a_digest_to_a_hex_string | SubtleCrypto: digest() method - Web APIs | MDN}
  */
 export const digestMessage = async (
-    message: string,
-    algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-256'
+	message: string,
+	algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-256',
 ): Promise<string> => {
-    const msgUint8 = new TextEncoder().encode(message)
-    const hashBuffer = await window.crypto.subtle.digest(algorithm, msgUint8)
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
-    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
+	const msgUint8 = new TextEncoder().encode(message)
+	const hashBuffer = await window.crypto.subtle.digest(algorithm, msgUint8)
+	const hashArray = Array.from(new Uint8Array(hashBuffer))
+	return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
 }
 
 /**
@@ -56,103 +56,103 @@ export const digestMessage = async (
  * @see {@link https://www.reddit.com/r/webdev/comments/1fmpa33/how_i_implemented_a_like_button_without/ | How I implemented a like button without Authentication : r/webdev}
  */
 export class AudioFingerprint {
-    // private
-    #audioContext: OfflineAudioContext | null = null
-    #currentTime: number | null = null
-    #oscillatorNode: OscillatorNode | null = null
-    #compressorNode: DynamicsCompressorNode | null = null
-    #fingerprint: string | null = null
-    #onCompleteCallback: ((fingerprint: string) => void) | null = null
+	// private
+	#audioContext: OfflineAudioContext | null = null
+	#currentTime: number | null = null
+	#oscillatorNode: OscillatorNode | null = null
+	#compressorNode: DynamicsCompressorNode | null = null
+	#fingerprint: string | null = null
+	#onCompleteCallback: ((fingerprint: string) => void) | null = null
 
-    createFingerPrint(
-        callback: (fingerprint: string) => void,
-        debug: boolean = false,
-    ): void {
-        this.#onCompleteCallback = callback
+	createFingerPrint(
+		callback: (fingerprint: string) => void,
+		debug: boolean = false,
+	): void {
+		this.#onCompleteCallback = callback
 
-        try {
-            this.#initializeAudioContext()
+		try {
+			this.#initializeAudioContext()
 
-            if (this.#oscillatorNode && this.#compressorNode && this.#audioContext) {
-                this.#oscillatorNode.connect(this.#compressorNode)
-                this.#compressorNode.connect(this.#audioContext.destination)
+			if (this.#oscillatorNode && this.#compressorNode && this.#audioContext) {
+				this.#oscillatorNode.connect(this.#compressorNode)
+				this.#compressorNode.connect(this.#audioContext.destination)
 
-                this.#oscillatorNode.start(0)
-                this.#audioContext.startRendering()
+				this.#oscillatorNode.start(0)
+				this.#audioContext.startRendering()
 
-                this.#audioContext.oncomplete = this.#handleAudioComplete.bind(this)
-            }
-        } catch (error) {
-            if (debug) {
-                console.error('Audio Fingerprinting Error:', error)
-            }
-        }
-    }
+				this.#audioContext.oncomplete = this.#handleAudioComplete.bind(this)
+			}
+		} catch (error) {
+			if (debug) {
+				console.error('Audio Fingerprinting Error:', error)
+			}
+		}
+	}
 
-    #initializeAudioContext(): void {
-        this.#createAudioContext()
-        if (this.#audioContext) {
-            this.#currentTime = this.#audioContext.currentTime
-            this.#createOscillatorNode()
-            this.#createCompressorNode()
-        }
-    }
+	#initializeAudioContext(): void {
+		this.#createAudioContext()
+		if (this.#audioContext) {
+			this.#currentTime = this.#audioContext.currentTime
+			this.#createOscillatorNode()
+			this.#createCompressorNode()
+		}
+	}
 
-    #createAudioContext(): void {
-        const OfflineContext =
-            // @ts-expect-error
-            window.OfflineAudioContext || window.webkitOfflineAudioContext
-        this.#audioContext = new OfflineContext(1, 5000, 44100)
-    }
+	#createAudioContext(): void {
+		const OfflineContext =
+			// @ts-expect-error
+			window.OfflineAudioContext || window.webkitOfflineAudioContext
+		this.#audioContext = new OfflineContext(1, 5000, 44100)
+	}
 
-    #createOscillatorNode(): void {
-        if (this.#audioContext) {
-            this.#oscillatorNode = this.#audioContext.createOscillator()
-            this.#oscillatorNode.type = 'triangle'
-            this.#oscillatorNode.frequency.setValueAtTime(
-                10000,
-                this.#currentTime || 0,
-            )
-        }
-    }
+	#createOscillatorNode(): void {
+		if (this.#audioContext) {
+			this.#oscillatorNode = this.#audioContext.createOscillator()
+			this.#oscillatorNode.type = 'triangle'
+			this.#oscillatorNode.frequency.setValueAtTime(
+				10000,
+				this.#currentTime || 0,
+			)
+		}
+	}
 
-    #createCompressorNode(): void {
-        if (this.#audioContext) {
-            this.#compressorNode = this.#audioContext.createDynamicsCompressor()
+	#createCompressorNode(): void {
+		if (this.#audioContext) {
+			this.#compressorNode = this.#audioContext.createDynamicsCompressor()
 
-            this.#setCompressorValue(this.#compressorNode.threshold, -50)
-            this.#setCompressorValue(this.#compressorNode.knee, 40)
-            this.#setCompressorValue(this.#compressorNode.ratio, 12)
-            this.#setCompressorValue(this.#compressorNode.attack, 0)
-            this.#setCompressorValue(this.#compressorNode.release, 0.25)
-        }
-    }
+			this.#setCompressorValue(this.#compressorNode.threshold, -50)
+			this.#setCompressorValue(this.#compressorNode.knee, 40)
+			this.#setCompressorValue(this.#compressorNode.ratio, 12)
+			this.#setCompressorValue(this.#compressorNode.attack, 0)
+			this.#setCompressorValue(this.#compressorNode.release, 0.25)
+		}
+	}
 
-    #setCompressorValue(param: AudioParam, value: number): void {
-        param.setValueAtTime(value, this.#audioContext!.currentTime)
-    }
+	#setCompressorValue(param: AudioParam, value: number): void {
+		param.setValueAtTime(value, this.#audioContext!.currentTime)
+	}
 
-    #handleAudioComplete(event: OfflineAudioCompletionEvent): void {
-        this.#generateFingerprint(event)
-        if (this.#compressorNode) {
-            this.#compressorNode.disconnect()
-        }
-    }
+	#handleAudioComplete(event: OfflineAudioCompletionEvent): void {
+		this.#generateFingerprint(event)
+		if (this.#compressorNode) {
+			this.#compressorNode.disconnect()
+		}
+	}
 
-    #generateFingerprint(event: OfflineAudioCompletionEvent): void {
-        let output = ''
-        const channelData = event.renderedBuffer.getChannelData(0)
+	#generateFingerprint(event: OfflineAudioCompletionEvent): void {
+		let output = ''
+		const channelData = event.renderedBuffer.getChannelData(0)
 
-        for (let i = 4500; i < 5000; i++) {
-            output += Math.abs(channelData[i]!)
-        }
+		for (let i = 4500; i < 5000; i++) {
+			output += Math.abs(channelData[i]!)
+		}
 
-        this.#fingerprint = output.toString()
+		this.#fingerprint = output.toString()
 
-        if (typeof this.#onCompleteCallback === 'function' && this.#fingerprint) {
-            this.#onCompleteCallback(this.#fingerprint)
-        }
-    }
+		if (typeof this.#onCompleteCallback === 'function' && this.#fingerprint) {
+			this.#onCompleteCallback(this.#fingerprint)
+		}
+	}
 }
 
 /**
@@ -167,12 +167,14 @@ export class AudioFingerprint {
  * @see {@link https://abhisaha.com/blog/no-authentication-like-button/ | No Authentication Like Button | Little Things}
  * @see {@link https://www.reddit.com/r/webdev/comments/1fmpa33/how_i_implemented_a_like_button_without/ | How I implemented a like button without Authentication : r/webdev}
  */
-export const getAudioFp = async (algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-256'): Promise<string> => {
-    return new Promise((resolve: (fingerprint: string) => void) => {
-        const audioFingerprint = new AudioFingerprint()
-        audioFingerprint.createFingerPrint(async (fingerprint: string) => {
-            fingerprint = window.btoa(fingerprint as string)
-            resolve(await digestMessage(fingerprint, algorithm))
-        }, true)
-    })
+export const getAudioFp = async (
+	algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-256',
+): Promise<string> => {
+	return new Promise((resolve: (fingerprint: string) => void) => {
+		const audioFingerprint = new AudioFingerprint()
+		audioFingerprint.createFingerPrint(async (fingerprint: string) => {
+			fingerprint = window.btoa(fingerprint as string)
+			resolve(await digestMessage(fingerprint, algorithm))
+		}, true)
+	})
 }
