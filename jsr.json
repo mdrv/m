@@ -1,0 +1,15 @@
+{
+	"name": "@mdrv/m",
+	"include": [
+		"LICENSE",
+		"README.md",
+		"src/v*/**/*.ts"
+	],
+	"exclude": [
+		"bun.lock",
+		"dprint.jsonc",
+		"tsdown.config.ts",
+		"res/",
+		".github/"
+	]
+}

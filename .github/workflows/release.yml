@@ -5,33 +5,72 @@ on:
     types: [published]
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: "Log level"
-        required: true
-        default: "warning"
+      jsr:
+        description: "Publish to JSR"
+        type: boolean
+        default: true
+      npm:
+        description: "Publish to NPM"
+        type: boolean
+        default: false
+      tag:
+        description: "NPM tag"
+        default: "latest"
+        type: choice
+        options:
+          - latest
+          - next
+
 jobs:
-  release:
+  jsr-release:
+    if: ${{ inputs.jsr }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
     steps:
       - uses: actions/checkout@v4
+      - name: Remove GitHub alerts from README.md for NPM/JSR
+        run: sed -i -r '/^>\s+\[!\w+\]/d' ./README.md
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun i # install
+      - run: bun --if-present g # generate
+      - name: "Remove publishConfig"
+        run: |
+          jq \
+            'del(.publishConfig)' \
+            package.json > package.json~
+          mv package.json~ package.json
+      - name: Publish to JSR
+        run: |
+          jq \
+            -s '.[0] * (.[1] | {version,license,exports})' \
+            jsr.json package.json > jsr.json~
+          mv jsr.json~ jsr.json
+          bunx jsr publish --allow-dirty
+  npm-release:
+    if: ${{ github.event_name == 'release' || inputs.npm }}
+    env:
+      TAG: ${{ github.event.release.prerelease || (inputs.tag == 'next') && 'next' || 'latest' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove GitHub alerts from README.md for NPM/JSR
+        run: sed -i -r '/^>\s+\[!\w+\]/d' ./README.md
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
           registry-url: "https://registry.npmjs.org/"
           scope: "@mdrv"
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.bun/install/cache
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
       - run: bun i # install
-      - run: bun b # scripts:build
-      - name: Remove GitHub alerts from README.md for NPM
-        run: sed -i -r '/^>\s+\[!\w+\]/d' ./README.md #
-      - name: "Use `exports` from publishConfig"
+      - run: bun --if-present g # generate
+      - run: bun --if-present b # build
+      - name: "Use data from publishConfig"
         run: |
           jq \
             'reduce .publishConfig as $in (.; . + $in) | del(.publishConfig)' \
@@ -43,7 +82,7 @@ jobs:
           registry-url: "https://registry.npmjs.org/"
           scope: "@mdrv"
       - name: "Publish to NPM: `@mdrv/m`"
-        run: npm publish --provenance --access public
+        run: npm publish --provenance --access public --tag $TAG
         env:
           NPM_CONFIG_TOKEN: ${{secrets.NPM_TOKEN}}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

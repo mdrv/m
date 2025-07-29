@@ -1,7 +1,8 @@
 {
 	"name": "@mdrv/m",
-	"version": "257.4.1",
-	"description": "🪴 Take your JS/TS existing code to the minimalist approach.",
+	"version": "257.4.2",
+	"license": "GPL-3.0",
+	"type": "module",
 	"keywords": [
 		"helpers",
 		"generics",
@@ -10,32 +11,34 @@
 		"types",
 		"utilities"
 	],
+	"description": "🪴 Take your JS/TS existing code to the minimalist approach.",
+	"author": "Umar Alfarouk <medrivia@gmail.com> (https://alfarouk.id)",
 	"homepage": "https://github.com/mdrv/m",
-	"bugs": {
-		"url": "https://github.com/mdrv/m/issues"
-	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/mdrv/m.git"
 	},
-	"license": "GPL-3.0",
-	"author": "Umar Alfarouk <medrivia@gmail.com> (https://alfarouk.id)",
-	"type": "module",
-	"exports": {
-		".": "./src/v257/index.ts",
-		"./dom": "./src/v257/dom.ts",
-		"./node": "./src/v257/node.ts",
-		"./*/dom": "./src/*/dom.ts",
-		"./*/node": "./src/*/node.ts",
-		"./*": "./src/*/index.ts"
+	"bugs": {
+		"url": "https://github.com/mdrv/m/issues"
 	},
-	"files": ["dist"],
 	"scripts": {
 		"b": "tsdown",
 		"f": "dprint fmt",
 		"fc": "dprint check"
 	},
+	"files": ["src"],
+	"main": "./src/v257/index.ts",
+	"types": "./src/v257/index.ts",
+	"exports": {
+		".": "./src/v257/index.ts",
+		"./dom": "./src/v257/dom.ts",
+		"./node": "./src/v257/node.ts",
+		"./v257/dom": "./src/v257/dom.ts",
+		"./v257/node": "./src/v257/node.ts",
+		"./v257": "./src/v257/index.ts"
+	},
 	"publishConfig": {
+		"files": ["dist"],
 		"main": "./dist/v257/index.js",
 		"types": "./dist/v257/index.d.ts",
 		"exports": {
@@ -51,26 +54,26 @@
 				"default": "./dist/v257/node.js",
 				"types": "./dist/v257/node.d.ts"
 			},
-			"./*/dom": {
-				"default": "./dist/*/dom.js",
-				"types": "./dist/*/dom.d.ts"
+			"./v257/dom": {
+				"default": "./dist/v257/dom.js",
+				"types": "./dist/v257/dom.d.ts"
 			},
-			"./*/node": {
-				"default": "./dist/*/node.js",
-				"types": "./dist/*/node.d.ts"
+			"./v257/node": {
+				"default": "./dist/v257/node.js",
+				"types": "./dist/v257/node.d.ts"
 			},
-			"./*": {
-				"default": "./dist/*/index.js",
-				"types": "./dist/*/index.d.ts"
+			"./v257": {
+				"default": "./dist/v257/index.js",
+				"types": "./dist/v257/index.d.ts"
 			}
 		}
+	},
+	"dependencies": {
+		"loglevel": "^1.9.2"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.2.18",
 		"@types/node": "^24.0.12",
 		"tsdown": "^0.12.9"
-	},
-	"dependencies": {
-		"loglevel": "^1.9.2"
 	}
 }
